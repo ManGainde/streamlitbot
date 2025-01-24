@@ -1,6 +1,14 @@
 import streamlit as st
 from openai import OpenAI
 
+# Feature selectbox
+st.subheader("Modèle GPT")
+
+choice = st.selectbox(
+    'Choisissez un type de modèle de GPT :',
+    ("gpt-3.5-turbo", "gpt-3.5-turbo-instruct", "gpt-3.5-turbo-1106", "gpt-3.5-turbo-0125")
+)
+
 st.title("ChatGPT-like clone")
 
 # Set OpenAI API key from Streamlit secrets
@@ -8,7 +16,10 @@ client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # Set a default model
 if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-3.5-turbo"
+    st.session_state["openai_model"] = choice #"gpt-3.5-turbo" 
+    
+st.write("Vous avez choisi le modèle : ", choice)
+
 
 # Initialize chat history
 if "messages" not in st.session_state:
