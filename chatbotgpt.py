@@ -9,6 +9,14 @@ choice = st.selectbox(
     ("gpt-3.5-turbo", "gpt-3.5-turbo-instruct", "gpt-3.5-turbo-1106", "gpt-3.5-turbo-0125")
 )
 
+# Feature slider
+st.subheader("Chat Token Number")
+
+slider_tokenMax = st.slider("Combien de mots souhaitez vous paramétrer pour le chat ?", 0, 500, (200))
+
+st.write(" Le chat vous répondra en ", slider_tokenMax, " mots maximum.")
+
+
 st.title("ChatGPT-like clone")
 
 # Set OpenAI API key from Streamlit secrets
@@ -47,7 +55,7 @@ if prompt := st.chat_input("What is up?"):
                 for m in st.session_state.messages
             ],
             stream=True,
-            max_tokens = 200,
+            max_tokens = slider_tokenMax, #200
         )
         response = st.write_stream(stream)
     st.session_state.messages.append({"role": "assistant", "content": response})
